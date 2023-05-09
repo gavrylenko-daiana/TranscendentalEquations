@@ -25,6 +25,61 @@ namespace TranscendentalEquations.Services
             return GetResultValue(input);
         }
 
+        public string ReplacePow(string input)
+        {
+            // string pattern = @"(\((?<Arg>[^\(\)]+)\))\^(\((?<Name>[^\(\)].+?)\)+)";
+            string pattern = @"(\((?<Arg>[^\(\)]+)\))\^((?<Name>\(.+?\)))";
+            MatchCollection data = new Regex(pattern).Matches(input);
+
+            if (data.Count == 0) return input;
+
+            var parts = data.Select(m => new
+            { Full = BalanceParentheses(m.Groups[0].Value), Arg = m.Groups[3].Value, Name = BalanceParentheses(m.Groups[2].Value) });
+
+            foreach (var item in parts)
+            {
+                double baseResult = GetValueFromEquation(item.Arg);
+
+                double exponentResult = GetValueFromEquation(item.Name);
+
+                double value = Math.Pow(baseResult, exponentResult);
+                value = Math.Round(value, 4);
+                input = input.Replace(item.Full, value.ToString());
+            }
+
+            return input.Replace(",", ".");
+        }
+
+        public string ReplaceTriginometry(string input)
+        {
+            string pattern = @"(?<Func>(cos|sin|tg|ctg)\((?<Name>.+?)\))";
+
+            MatchCollection data = new Regex(pattern).Matches(input);
+
+            if (data.Count == 0) return input;
+
+            var parts = data.Select(m => new { Full = m.Groups[0].Value, Func = m.Groups[1].Value, Arg = m.Groups[3].Value });
+
+            foreach (var item in parts)
+            {
+                double value = GetValueFromEquation(item.Arg);
+
+                value = item.Func.ToLower() switch
+                {
+                    "sin" => Math.Sin(value),
+                    "cos" => Math.Cos(value),
+                    "tg" => Math.Tan(value),
+                    "ctg" => 1 / Math.Tan(value),
+                    _ => value
+                };
+
+                value = Math.Round(value, 4);
+                input = input.Replace(item.Full, value.ToString());
+            }
+
+            return input.Replace(",", "."); ;
+        }
+
         public string ReplaceSqrt(string input)
         {
             input = input.Replace(",", ".");
@@ -78,66 +133,50 @@ namespace TranscendentalEquations.Services
 
         public double GetResultValue(string input)
         {
-            string result = input.Replace(",", ".");
-            double value = Convert.ToDouble(Convert.ToDecimal(new DataTable().Compute(result, null)));
+            string str = input.Replace(",", ".");
+            double value = Convert.ToDouble(Convert.ToDecimal(new DataTable().Compute(str, null)));
             value = Math.Round(value, 4);
 
             return value;
         }
 
-        public string ReplaceTriginometry(string input)
+        private string SavePreviousStr(string result)
         {
-            string pattern = @"(?<Func>(cos|sin|tg|ctg)\((?<Name>.+?)\))";
-
-            MatchCollection data = new Regex(pattern).Matches(input);
-
-            if (data.Count == 0) return input;
-
-            var parts = data.Select(m => new { Full = m.Groups[0].Value, Func = m.Groups[1].Value, Arg = m.Groups[3].Value });
-
-            foreach (var item in parts)
-            {
-                double value = GetValueFromEquation(item.Arg);
-
-                value = item.Func.ToLower() switch
-                {
-                    "sin" => Math.Sin(value),
-                    "cos" => Math.Cos(value),
-                    "tg" => Math.Tan(value),
-                    "ctg" => 1 / Math.Tan(value),
-                    _ => value
-                };
-
-                value = Math.Round(value, 4);
-                input = input.Replace(item.Full, value.ToString());
-            }
-
-            return input.Replace(",", "."); ;
+            return result;
         }
 
-        public string ReplacePow(string input)
+        private string BalanceParentheses(string input)
         {
-            // string pattern = @"(\((?<Arg>[^\(\)]+)\))\^(\((?<Name>[^\(\)].+?)\)+)";
-            string pattern = @"(\((?<Arg>[^\(\)]+)\))\^((?<Name>\(.+?\)+))";
-            MatchCollection data = new Regex(pattern).Matches(input);
-
-            if (data.Count == 0) return input;
-
-            var parts = data.Select(m => new
-            { Full = m.Groups[0].Value, Arg = m.Groups[1].Value, Name = m.Groups[2].Value });
-
-            foreach (var item in parts)
+            int openCount = 0;
+            int closeCount = 0;
+            foreach (char c in input)
             {
-                double baseResult = GetValueFromEquation(item.Arg);
-
-                double exponentResult = GetValueFromEquation(item.Name);
-
-                double value = Math.Pow(baseResult, exponentResult);
-                value = Math.Round(value, 4);
-                input = input.Replace(item.Full, value.ToString());
+                if (c == '(') openCount++;
+                else if (c == ')') closeCount++;
             }
-
-            return input.Replace(",", ".");
+            int extraClosing = closeCount - openCount;
+            if (extraClosing > 0)
+            {
+                string result = "";
+                for (int i = input.Length - 1; i >= 0; i--)
+                {
+                    if (input[i] == ')' && extraClosing > 0)
+                    {
+                        extraClosing--;
+                        continue;
+                    }
+                    result = input[i] + result;
+                }
+                return result;
+            }
+            else if (extraClosing < 0)
+            {
+                return input + new string(')', -extraClosing);
+            }
+            else
+            {
+                return input;
+            }
         }
     }
 }

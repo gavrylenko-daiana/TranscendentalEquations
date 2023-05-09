@@ -39,10 +39,12 @@ namespace TranscendentalEquations.TranscendentalMethods
                 for (int i = 0; i < maxIterations; i++)
                 {
                     x = (a + b) / 2;
+                    fx = f(x, equation);
 
                     if (Math.Abs(fx) < tolerance)
                     {
                         isComplete = true;
+                        fx = f(x, equation);
                         break;
                     }
                     if (fa * fx < 0)
@@ -63,11 +65,11 @@ namespace TranscendentalEquations.TranscendentalMethods
                     if (decimalIndex != -1 && fxStr[decimalIndex + 1] == '0')
                     {
                         fxStr = fxStr.Substring(0, decimalIndex + 1) + '1' + fxStr.Substring(decimalIndex + 2);
-                        fx = Convert.ToDouble(fxStr);
+                        tolerance = Convert.ToDouble(fxStr);
                     }
                     else
                     {
-                        fx = Math.Ceiling(fx * 10) / 10;
+                        tolerance = Math.Ceiling(fx * 10) / 10;
                     }
                 }
             } 
