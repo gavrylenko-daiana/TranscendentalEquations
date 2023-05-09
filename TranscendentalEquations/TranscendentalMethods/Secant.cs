@@ -10,18 +10,22 @@ namespace TranscendentalEquations.TranscendentalMethods
 {
     public class Secant
     {
-        private double f(double x, string equation)
+        private static double f(double x, string equation)
         {
             ParserService parserService = new ParserService();
+            equation = equation.Replace("x", x.ToString());
+            if (equation.Contains("pi") || equation.Contains('e'))
+                equation = parserService.ReplaceConstants(equation);
             double result = parserService.GetValueFromEquation(equation);
 
             return result;
         }
 
-        public double SecantMethod(string equation)
+        public static double SecantMethod(string equation)
         {
             double x0 = 0.8;
             double x1 = 1.1;
+            double x2 = 0;
             double tolerance = 0.0001;
             int maxIterations = 100;
 
@@ -35,7 +39,7 @@ namespace TranscendentalEquations.TranscendentalMethods
                     return x1;
                 }
 
-                double x2 = x1 - fx1 * (x1 - x0) / (fx1 - fx0);
+                x2 = x1 - fx1 * (x1 - x0) / (fx1 - fx0);
                 x0 = x1;
                 x1 = x2;
                 fx0 = fx1;

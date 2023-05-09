@@ -31,7 +31,7 @@ namespace TranscendentalEquations.TranscendentalMethods
             double fx = f(x, equation);
 
             double tolerance = 0.0001;
-            int maxIterations = 3;
+            int maxIterations = 100;
             bool isComplete = false;
 
             if (fa * fb < 0)
