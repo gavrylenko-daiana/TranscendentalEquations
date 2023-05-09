@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sprache;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,15 +13,18 @@ namespace TranscendentalEquations.TranscendentalMethods
     {
         private static double f(double x, string equation)
         {
-            EquationService equationService = new EquationService();
-            double result = equationService.GetValueFromEquation(x, equation);
+            ParserService parserService = new ParserService();
+            equation = equation.Replace("x", x.ToString());
+            if (equation.Contains("pi") || equation.Contains('e'))
+                equation = parserService.ReplaceConstants(equation);
+            double result = parserService.GetValueFromEquation(equation);
 
             return result;
         }
 
         public static double BisectionMethod(string equation)
         {
-            double a = 0.8, b = 1.1, x = 0;
+            double a = 0.8, b = 1.1, x = 1;
 
             double fa = f(a, equation);
             double fb = f(b, equation);

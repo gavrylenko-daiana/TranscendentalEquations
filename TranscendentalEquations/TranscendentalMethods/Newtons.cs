@@ -12,8 +12,8 @@ namespace TranscendentalEquations.TranscendentalMethods
     {
         private double f(double x, string equation)
         {
-            EquationService equationService = new EquationService();
-            double result = equationService.GetValueFromEquation(x, equation);
+            ParserService parserService = new ParserService();
+            double result = parserService.GetValueFromEquation(equation);
 
             return result;
         }

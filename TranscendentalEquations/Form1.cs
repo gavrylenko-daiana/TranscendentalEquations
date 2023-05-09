@@ -26,7 +26,7 @@ namespace TranscendentalEquations
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            double result = Secant.SecantMethod(textBox1.Text);
+            double result = Bisection.BisectionMethod(textBox1.Text);
             ResultLabel_Update(Convert.ToString(result));
         }
         private void ResultLabel_Update(string text)

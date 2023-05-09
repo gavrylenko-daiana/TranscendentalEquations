@@ -9,9 +9,83 @@ using TranscendentalEquations.Interfaces;
 
 namespace TranscendentalEquations.Services
 {
-    public class ParserService
+    public class ParserService : IParserService
     {
-        public static string ReplaceTriginometry(double x, string input)
+        public double GetValueFromEquation(string input)
+        {
+            if (input.Contains('^'))
+                input = ReplacePow(input);
+            if (input.Contains("sin") || input.Contains("cos") || input.Contains("tg") || input.Contains("ctg"))
+                input = ReplaceTriginometry(input);
+            if (input.Contains("sqrt"))
+                input = ReplaceSqrt(input);
+            if (input.Contains('|'))
+                input = ReplaceAbsolute(input);
+
+            return GetResultValue(input);
+        }
+
+        public string ReplaceSqrt(string input)
+        {
+            input = input.Replace(",", ".");
+            string pattern = @"sqrt\((?<Arg>[^\(\)]+)\)";
+            MatchCollection data = new Regex(pattern).Matches(input);
+
+            if (data.Count == 0) return input;
+
+            var parts = data.Select(m => new { Full = m.Groups[0].Value, Arg = m.Groups["Arg"].Value });
+
+            foreach (var item in parts)
+            {
+                double baseResult = GetValueFromEquation(item.Arg);
+                double value = Math.Sqrt(baseResult);
+                value = Math.Round(value, 4);
+                input = input.Replace(item.Full, value.ToString());
+            }
+
+            return input.Replace(",", "."); ;
+        }
+
+        public string ReplaceAbsolute(string input)
+        {
+            input = input.Replace(",", ".");
+            string pattern = @"\|(?<Arg>[^\|]+)\|";
+
+            MatchCollection data = new Regex(pattern).Matches(input);
+
+            if (data.Count == 0) return input;
+
+            var parts = data.Select(m => new { Full = m.Groups[0].Value, Arg = m.Groups[1].Value });
+
+            foreach (var item in parts)
+            {
+                double result = GetValueFromEquation(item.Arg);
+                result = Math.Abs(result);
+                result = Math.Round(result, 4);
+                input = input.Replace(item.Full, result.ToString());
+            }
+
+            return input.Replace(",", "."); ;
+        }
+
+        public string ReplaceConstants(string input)
+        {
+            input = input.Replace("pi", Math.Round(Math.PI, 4).ToString());
+            input = input.Replace("e", Math.Round(Math.E, 4).ToString());
+
+            return input.Replace(",", ".");
+        }
+
+        public double GetResultValue(string input)
+        {
+            string result = input.Replace(",", ".");
+            double value = Convert.ToDouble(Convert.ToDecimal(new DataTable().Compute(result, null)));
+            value = Math.Round(value, 4);
+
+            return value;
+        }
+
+        public string ReplaceTriginometry(string input)
         {
             string pattern = @"(?<Func>(cos|sin|tg|ctg)\((?<Name>.+?)\))";
 
@@ -19,13 +93,11 @@ namespace TranscendentalEquations.Services
 
             if (data.Count == 0) return input;
 
-            var parts = data.Select(m => new
-            { Full = m.Groups[0].Value, Func = m.Groups[1].Value, Arg = m.Groups[3].Value });
+            var parts = data.Select(m => new { Full = m.Groups[0].Value, Func = m.Groups[1].Value, Arg = m.Groups[3].Value });
 
             foreach (var item in parts)
             {
-                string arg = item.Arg.Replace("x", x.ToString()).Replace(",", ".");
-                double value = Convert.ToDouble(Convert.ToDecimal(new DataTable().Compute(arg, null)));
+                double value = GetValueFromEquation(item.Arg);
 
                 value = item.Func.ToLower() switch
                 {
@@ -40,69 +112,32 @@ namespace TranscendentalEquations.Services
                 input = input.Replace(item.Full, value.ToString());
             }
 
-            return input;
+            return input.Replace(",", "."); ;
         }
 
-        public static string ReplacePow(double x, string input)
+        public string ReplacePow(string input)
         {
-            string pattern = @"(\((?<Arg>[^\(\)]+)\))\^\d+";
-
+            // string pattern = @"(\((?<Arg>[^\(\)]+)\))\^(\((?<Name>[^\(\)].+?)\)+)";
+            string pattern = @"(\((?<Arg>[^\(\)]+)\))\^((?<Name>\(.+?\)+))";
             MatchCollection data = new Regex(pattern).Matches(input);
 
             if (data.Count == 0) return input;
 
-            var parts = data.Select(m => new { Full = m.Groups[0].Value, Arg = m.Groups[1].Value });
+            var parts = data.Select(m => new
+            { Full = m.Groups[0].Value, Arg = m.Groups[1].Value, Name = m.Groups[2].Value });
 
             foreach (var item in parts)
             {
-                string baseValue = item.Arg.Replace("x", x.ToString()).Replace(",", ".");
-                double baseResult = Convert.ToDouble(Convert.ToDecimal(new DataTable().Compute(baseValue, null)));
+                double baseResult = GetValueFromEquation(item.Arg);
 
-                double value = Math.Pow(baseResult, 2);
+                double exponentResult = GetValueFromEquation(item.Name);
+
+                double value = Math.Pow(baseResult, exponentResult);
                 value = Math.Round(value, 4);
                 input = input.Replace(item.Full, value.ToString());
             }
 
-            return input;
-        }
-
-        public static string ReplaceAbsolute(double x, string input)
-        {
-            string pattern = @"\|(?<Arg>[^\|]+)\|";
-
-            MatchCollection data = new Regex(pattern).Matches(input);
-
-            if (data.Count == 0) return input;
-
-            var parts = data.Select(m => new { Full = m.Groups[0].Value, Arg = m.Groups[1].Value });
-
-            foreach (var item in parts)
-            {
-                string value = item.Arg.Replace("x", x.ToString()).Replace(",", ".");
-                double result = Convert.ToDouble(Convert.ToDecimal(new DataTable().Compute(value, null)));
-                result = Math.Abs(result);
-                result = Math.Round(result, 4);
-                input = input.Replace(item.Full, result.ToString());
-            }
-
-            return input;
-        }
-
-        public static string ReplaceConstants(string input)
-        {
-            input = input.Replace("pi", Math.Round(Math.PI, 4).ToString());
-            input = input.Replace("e", Math.Round(Math.E, 4).ToString());
-
-            return input;
-        }
-
-        public static double GetResultValue(double x, string input)
-        {
-            string result = input.Replace("x", x.ToString()).Replace(",", ".");
-            double value = Convert.ToDouble(Convert.ToDecimal(new DataTable().Compute(result, null)));
-            value = Math.Round(value, 4);
-
-            return value;
+            return input.Replace(",", ".");
         }
     }
 }

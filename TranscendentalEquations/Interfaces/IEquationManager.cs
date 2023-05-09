@@ -4,6 +4,6 @@ namespace TranscendentalEquations.Interfaces
 {
     public interface IEquationManager
     {
-        double GetValueFromEquation(double x, string input);
+        double GetValueFromEquation(string input);
     }
 }
