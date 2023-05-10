@@ -1,3 +1,4 @@
+using TranscendentalEquations.Services;
 using TranscendentalEquations.TranscendentalMethods;
 namespace TranscendentalEquations
 {

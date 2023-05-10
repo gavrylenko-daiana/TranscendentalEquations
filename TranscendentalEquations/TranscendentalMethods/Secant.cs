@@ -3,24 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TranscendentalEquations.Model;
 using TranscendentalEquations.Services;
 
 namespace TranscendentalEquations.TranscendentalMethods
 {
-    public class Secant
+    public class Secant : FindFunction
     {
-        private static double f(double x, string equation)
-        {
-            ParserService parserService = new ParserService();
-            equation = equation.Replace("x", x.ToString());
-            if (equation.Contains("pi") || equation.Contains('e'))
-                equation = parserService.ReplaceConstants(equation);
-            double result = parserService.GetValueFromEquation(equation);
-
-            return result;
-        }
-
         public static double SecantMethod(string equation)
         {
             double x0 = 0.8;

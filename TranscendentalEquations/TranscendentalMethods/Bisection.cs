@@ -9,19 +9,8 @@ using TranscendentalEquations.Services;
 
 namespace TranscendentalEquations.TranscendentalMethods
 {
-    public class Bisection
+    public class Bisection : FindFunction
     {
-        private static double f(double x, string equation)
-        {
-            ParserService parserService = new ParserService();
-            equation = equation.Replace("x", x.ToString());
-            if (equation.Contains("pi") || equation.Contains('e'))
-                equation = parserService.ReplaceConstants(equation);
-            double result = parserService.GetValueFromEquation(equation);
-
-            return result;
-        }
-
         public static double BisectionMethod(string equation)
         {
             double a = 0.8, b = 1.1, x = 1;

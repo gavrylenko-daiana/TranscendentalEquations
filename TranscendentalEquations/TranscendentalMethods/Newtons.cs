@@ -3,22 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TranscendentalEquations.Model;
 using TranscendentalEquations.Services;
 
 namespace TranscendentalEquations.TranscendentalMethods
 {
-    public class Newtons
+    public class Newtons : FindFunction
     {
-        private static double f(double x, string equation)
-        {
-            ParserService parserService = new ParserService();
-            double result = parserService.GetValueFromEquation(equation);
-
-            return result;
-        }
-
-        private static double df(double x, string equation)
+        private double df(double x, string equation)
         {
             return (1 - x) * Math.Exp(-x);
         }
@@ -40,7 +31,7 @@ namespace TranscendentalEquations.TranscendentalMethods
         //}
 
 
-        public static double NewtonsMethod(string equation)
+        public double NewtonsMethod(string equation)
         {
             double x = 1;
             double tolerance = 0.0001;
