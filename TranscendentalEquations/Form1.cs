@@ -27,7 +27,9 @@ namespace TranscendentalEquations
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            double result = Secant.SecantMethod(textBox1.Text);
+            //double result = Secant.SecantMethod(textBox1.Text);
+            double result = Bisection.BisectionMethod(textBox1.Text);
+            result = FindFunction.f(0.25, textBox1.Text);
             ResultLabel_Update(Convert.ToString(result));
         }
         private void ResultLabel_Update(string text)
@@ -39,5 +41,5 @@ namespace TranscendentalEquations
     }
 }
 
-
-// cos(5*x)+|x-(x)^2|-pi+|2*(x-1)|+15*pi-e/(tg(-5*x))^2
+// 5*cos((x)^(2))-3*x
+// cos(5*x)+|x-(x)^(2)|-pi+|2*(x-1)|+15*pi-e/(tg-5*x)^(2)

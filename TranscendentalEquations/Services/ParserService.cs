@@ -31,14 +31,17 @@ namespace TranscendentalEquations.Services
             string pattern = @"(\((?<Arg>[^\(\)]+)\))\^((?<Name>\(.+?\)))";
             MatchCollection data = new Regex(pattern).Matches(input);
 
-            if (data.Count == 0) return input;
-
             var parts = data.Select(m => new
             { Full = BalanceParentheses(m.Groups[0].Value), Arg = m.Groups[3].Value, Name = BalanceParentheses(m.Groups[2].Value) });
+            
+            string arg = "";
 
             foreach (var item in parts)
             {
-                double baseResult = GetValueFromEquation(item.Arg);
+                arg = item.Arg;
+                arg = CheckTrigInPow(item.Arg);
+
+                double baseResult = GetValueFromEquation(arg);
 
                 double exponentResult = GetValueFromEquation(item.Name);
 
@@ -48,6 +51,32 @@ namespace TranscendentalEquations.Services
             }
 
             return input.Replace(",", ".");
+        }
+
+        private string CheckTrigInPow(string input)
+        {
+            if (input.Contains("sin") || input.Contains("cos") || input.Contains("tg") || input.Contains("ctg"))
+            {
+                if (input.Contains("sin")) input = AddParentheses(input, "sin");
+                else if (input.Contains("cos")) input = AddParentheses(input, "cos");
+                else if (input.Contains("tg")) input = AddParentheses(input, "tg");
+                else if (input.Contains("ctg")) input = AddParentheses(input, "ctg");
+            }
+
+            return input;
+        }
+
+        private string AddParentheses(string input, string word)
+        {
+            int startIndex = input.IndexOf(word) + word.Length;
+
+            if (startIndex != -1)
+            {
+                input = input.Insert(startIndex, "(");
+                input = input.Insert(input.Length, ")");
+            }
+
+            return input;
         }
 
         public string ReplaceTriginometry(string input)
@@ -138,11 +167,6 @@ namespace TranscendentalEquations.Services
             value = Math.Round(value, 4);
 
             return value;
-        }
-
-        private string SavePreviousStr(string result)
-        {
-            return result;
         }
 
         private string BalanceParentheses(string input)

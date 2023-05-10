@@ -67,7 +67,7 @@ namespace TranscendentalEquations.TranscendentalMethods
                 return double.NaN;
             }
 
-            return x;
+            return Math.Round(x, 4);
         }
     }
 }
