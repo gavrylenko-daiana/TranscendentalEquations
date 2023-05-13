@@ -29,7 +29,8 @@ namespace TranscendentalEquations
         {
             //double result = Secant.SecantMethod(textBox1.Text);
             // double result = Bisection.BisectionMethod(textBox1.Text);
-            double result = FindFunction.f(0.25, textBox1.Text.ToLower());
+            FindFunction findFunction = new FindFunction(); 
+            double result = findFunction.f(0.25, textBox1.Text.ToLower());
             ResultLabel_Update(Convert.ToString(result));
         }
         private void ResultLabel_Update(string text)
