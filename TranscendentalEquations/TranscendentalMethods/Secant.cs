@@ -9,7 +9,7 @@ namespace TranscendentalEquations.TranscendentalMethods
 {
     public class Secant : FindFunction
     {
-        public static double SecantMethod(string equation)
+        public double SecantMethod(string equation)
         {
             double x0 = 0.8;
             double x1 = 1.1;

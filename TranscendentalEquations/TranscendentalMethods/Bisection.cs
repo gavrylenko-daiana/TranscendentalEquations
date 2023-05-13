@@ -11,7 +11,7 @@ namespace TranscendentalEquations.TranscendentalMethods
 {
     public class Bisection : FindFunction
     {
-        public static double BisectionMethod(string equation)
+        public double BisectionMethod(string equation)
         {
             double a = 0.8, b = 1.1, x = 1;
 
