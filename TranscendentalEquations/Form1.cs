@@ -28,9 +28,10 @@ namespace TranscendentalEquations
         private void button1_Click(object sender, EventArgs e)
         {
             //double result = Secant.SecantMethod(textBox1.Text);
-            // double result = Bisection.BisectionMethod(textBox1.Text);
-            FindFunction findFunction = new FindFunction(); 
-            double result = findFunction.f(0.25, textBox1.Text.ToLower());
+            Bisection bisection = new Bisection();
+            double result = bisection.BisectionMethod(textBox1.Text);
+            //FindFunction findFunction = new FindFunction(); 
+            //double result = findFunction.f(0.25, textBox1.Text.ToLower());
             ResultLabel_Update(Convert.ToString(result));
         }
         private void ResultLabel_Update(string text)

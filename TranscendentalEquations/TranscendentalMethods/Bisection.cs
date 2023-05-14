@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TranscendentalEquations.Services;
+using TranscendentalEquations.Helper;
 
 namespace TranscendentalEquations.TranscendentalMethods
 {
@@ -48,20 +49,9 @@ namespace TranscendentalEquations.TranscendentalMethods
 
                 if (!isComplete)
                 {
-                    string fxStr = fx.ToString();
-                    int decimalIndex = fxStr.IndexOf(".");
-
-                    if (decimalIndex != -1 && fxStr[decimalIndex + 1] == '0')
-                    {
-                        fxStr = fxStr.Substring(0, decimalIndex + 1) + '1' + fxStr.Substring(decimalIndex + 2);
-                        tolerance = Convert.ToDouble(fxStr);
-                    }
-                    else
-                    {
-                        tolerance = Math.Ceiling(fx * 10) / 10;
-                    }
+                    tolerance = tolerance.GetTolerance(fx);
                 }
-            } 
+            }
             else
             {
                 return double.NaN;

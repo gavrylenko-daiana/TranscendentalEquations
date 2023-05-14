@@ -10,14 +10,8 @@ namespace TranscendentalEquations.Interfaces
 {
     public interface IParserService
     {
-        string ReplaceTriginometry(string input);
-
-        string ReplacePow(string input);
-
-        string ReplaceAbsolute(string input);
-
         string ReplaceConstants(string input);
 
-        double GetResultValue(string input);
+        double GetValueFromEquation(string input);
     }
 }
