@@ -23,7 +23,10 @@ namespace TranscendentalEquations.Services
         public double df(double x, string equation)
         {
             FindDerivative findDerivative = new FindDerivative();
+
+            equation = findDerivative.ReplaceWithDerivative(equation);
             equation = findDerivative.GetDerivativeFromString(equation);
+
             double result = f(x, equation);
 
             return result;

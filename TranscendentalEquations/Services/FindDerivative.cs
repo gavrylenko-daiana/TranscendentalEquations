@@ -24,6 +24,18 @@ namespace TranscendentalEquations.Services
             return input;
         }
 
+        public string ReplaceWithDerivative(string input)
+        {
+            var matches = Regex.Matches(input, @"(?<!\()\b(x|\d+)\b(?!\))");
+            foreach (Match match in matches)
+            {
+                var derivative = match.Value == "x" ? "1" : "0";
+
+                input = input.Remove(match.Index, match.Length).Insert(match.Index, derivative);
+            }
+            return input;
+        }
+
         private string DerivativeTrigonometricFunctions(string input)
         {
             string regex = @"(?<Func>(cos|sin|tg|ctg))";

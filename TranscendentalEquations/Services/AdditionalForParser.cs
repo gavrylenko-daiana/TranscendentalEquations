@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TranscendentalEquations.Model;
 
@@ -91,14 +92,17 @@ namespace TranscendentalEquations.Services
         protected List<string> GetArgumentsForTriginometry(string input)
         {
             List<string> arguments = new List<string>();
-            string[] functions = new string[] { "cos", "sin", "tg", "ctg" };
-            foreach (string function in functions)
+            string pattern = @"(?<Func>(cos|sin|tg|ctg))";
+            MatchCollection matches = Regex.Matches(input, pattern);
+
+            foreach (Match match in matches)
             {
-                int index = input.IndexOf(function + "(");
-                while (index != -1)
+                int index = match.Index + match.Length;
+                if (index < input.Length && input[index] == '(')
                 {
-                    int openCount = 0;
-                    for (int i = index + function.Length; i < input.Length; i++)
+                    int openCount = 1;
+                    int endIndex = -1;
+                    for (int i = index + 1; i < input.Length; i++)
                     {
                         if (input[i] == '(')
                         {
@@ -109,16 +113,17 @@ namespace TranscendentalEquations.Services
                             openCount--;
                             if (openCount == 0)
                             {
-                                arguments.Add(input.Substring(index + function.Length + 1, i - index - function.Length - 1));
+                                endIndex = i;
                                 break;
                             }
                         }
                     }
-
-                    index = input.IndexOf(function + "(", index + 1);
+                    if (endIndex != -1)
+                    {
+                        arguments.Add(input.Substring(index + 1, endIndex - index - 1));
+                    }
                 }
             }
-
             return arguments;
         }
 
