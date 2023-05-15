@@ -22,11 +22,9 @@ namespace TranscendentalEquations.Services
 
         public double df(double x, string equation)
         {
-            ParserService parserService = new ParserService();
-            equation = equation.Replace("x", x.ToString()).Replace(",", ".");
-            if (equation.Contains("pi") || equation.Contains('e'))
-                equation = parserService.ReplaceConstants(equation);
-            double result = parserService.GetValueFromEquation(equation);
+            FindDerivative findDerivative = new FindDerivative();
+            equation = findDerivative.GetDerivativeFromString(equation);
+            double result = f(x, equation);
 
             return result;
         }

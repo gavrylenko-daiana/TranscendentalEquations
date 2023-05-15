@@ -12,9 +12,10 @@ namespace TranscendentalEquations.TranscendentalMethods
     {
         public double NewtonsMethod(string equation)
         {
+            double tolerance = 0.0001; // -
+            int maxIterations = 100; // -
+
             double x = 1;
-            double tolerance = 0.0001;
-            int maxIterations = 100;
             bool isComplete = false;
             double fx = f(x, equation);
             double dfx = df(x, equation);
@@ -38,7 +39,7 @@ namespace TranscendentalEquations.TranscendentalMethods
                 tolerance = tolerance.GetTolerance(fx);
             }
 
-            return x;
+            return Math.Round(x, 4);
         }
     }
 }

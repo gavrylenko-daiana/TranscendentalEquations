@@ -4,11 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TranscendentalEquations.Interfaces;
 
 namespace TranscendentalEquations.Services
 {
-    public class FindDerivativeOfFunction : AdditionalForParser
+    public class FindDerivative : AdditionalForParser, IFindDerivative
     {
+        public string GetDerivativeFromString(string input)
+        {
+            if (input.Contains("sin") || input.Contains("cos") || input.Contains("tg") || input.Contains("ctg"))
+                input = DerivativeTrigonometricFunctions(input);
+            if (input.Contains('^'))
+                input = DerivativePowers(input);
+            if (input.Contains("sqrt"))
+                input = DerivativeSqrt(input);
+            if (input.Contains('|'))
+                input = DerivativeAbsolute(input);
+
+            return input;
+        }
+
         private string DerivativeTrigonometricFunctions(string input)
         {
             string regex = @"(?<Func>(cos|sin|tg|ctg))";
@@ -36,32 +51,6 @@ namespace TranscendentalEquations.Services
             }
 
             return input;
-        }
-
-        private string GetTrigonometricFunctionDerivative(string function, string argument)
-        {
-            switch (function)
-            {
-                case "sin":
-                    return $"cos({argument})";
-
-                case "cos":
-                    return $"-sin({argument})";
-
-                case "ctg":
-                    return $"-1/(sin({argument}))^(2)";
-
-                case "tg":
-                    return $"1/(cos({argument}))^(2)";
-
-                default:
-                    return string.Empty;
-            }
-        }
-
-        private bool IsOperator(char c)
-        {
-            return c == '+' || c == '-' || c == '*' || c == '/';
         }
 
         private string DerivativePowers(string input)

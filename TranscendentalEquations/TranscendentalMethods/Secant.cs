@@ -13,6 +13,7 @@ namespace TranscendentalEquations.TranscendentalMethods
         {
             double x0 = 0.8;
             double x1 = 1.1;
+
             double x2 = 0;
             double tolerance = 0.0001;
             int maxIterations = 100;
@@ -24,7 +25,7 @@ namespace TranscendentalEquations.TranscendentalMethods
             {
                 if (Math.Abs(fx1) < tolerance)
                 {
-                    return x1;
+                    return Math.Round(x1, 4);
                 }
 
                 x2 = x1 - fx1 * (x1 - x0) / (fx1 - fx0);

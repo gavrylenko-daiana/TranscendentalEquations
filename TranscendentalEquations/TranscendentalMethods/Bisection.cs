@@ -14,15 +14,16 @@ namespace TranscendentalEquations.TranscendentalMethods
     {
         public double BisectionMethod(string equation)
         {
-            double a = 0.8, b = 1.1, x = 1;
+            double a = 0.8, b = 1.1; // -
+            double tolerance = 0.0001; // -
+            int maxIterations = 100; // -
+
+            double x = 1;
+            bool isComplete = false;
 
             double fa = f(a, equation);
             double fb = f(b, equation);
             double fx = f(x, equation);
-
-            double tolerance = 0.0001;
-            int maxIterations = 100;
-            bool isComplete = false;
 
             if (fa * fb < 0)
             {

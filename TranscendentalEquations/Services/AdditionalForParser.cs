@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TranscendentalEquations.Model;
 
 namespace TranscendentalEquations.Services
 {
     public class AdditionalForParser
     {
+        #region pow
         protected List<(string arg, string exp)> GetComponentsForPow(string input)
         {
             List<(string arg, string exp)> components = new List<(string arg, string exp)>();
@@ -59,6 +61,33 @@ namespace TranscendentalEquations.Services
             return components;
         }
 
+        protected double CalculatePower(double baseValue, double exponentValue)
+        {
+            bool isNegative = false;
+
+            if (baseValue < 0)
+            {
+                baseValue = Math.Abs(baseValue);
+                isNegative = !isNegative;
+            }
+            if (exponentValue < 0)
+            {
+                exponentValue = Math.Abs(exponentValue);
+                isNegative = !isNegative;
+            }
+
+            double value = Math.Pow(baseValue, exponentValue);
+
+            if (isNegative && exponentValue % 2 != 0)
+            {
+                value = -value;
+            }
+
+            return value;
+        }
+        #endregion
+
+        #region trigonometry
         protected List<string> GetArgumentsForTriginometry(string input)
         {
             List<string> arguments = new List<string>();
@@ -93,29 +122,31 @@ namespace TranscendentalEquations.Services
             return arguments;
         }
 
-        protected double CalculatePower(double baseValue, double exponentValue)
+        protected string GetTrigonometricFunctionDerivative(string function, string argument)
         {
-            bool isNegative = false;
-
-            if (baseValue < 0)
+            switch (function)
             {
-                baseValue = Math.Abs(baseValue);
-                isNegative = !isNegative;
-            }
-            if (exponentValue < 0)
-            {
-                exponentValue = Math.Abs(exponentValue);
-                isNegative = !isNegative;
-            }
+                case "sin":
+                    return $"cos({argument})";
 
-            double value = Math.Pow(baseValue, exponentValue);
+                case "cos":
+                    return $"-sin({argument})";
 
-            if (isNegative && exponentValue % 2 != 0)
-            {
-                value = -value;
+                case "ctg":
+                    return $"-1/(sin({argument}))^(2)";
+
+                case "tg":
+                    return $"1/(cos({argument}))^(2)";
+
+                default:
+                    return string.Empty;
             }
+        }
+        #endregion
 
-            return value;
+        protected bool IsOperator(char c)
+        {
+            return c == '+' || c == '-' || c == '*' || c == '/';
         }
     }
 }
