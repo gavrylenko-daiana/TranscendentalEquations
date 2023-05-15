@@ -55,6 +55,7 @@ namespace TranscendentalEquations.Services
                     }
                 }
             }
+
             return components;
         }
 
@@ -84,11 +85,37 @@ namespace TranscendentalEquations.Services
                             }
                         }
                     }
+
                     index = input.IndexOf(function + "(", index + 1);
                 }
             }
 
             return arguments;
+        }
+
+        protected double CalculatePower(double baseValue, double exponentValue)
+        {
+            bool isNegative = false;
+
+            if (baseValue < 0)
+            {
+                baseValue = Math.Abs(baseValue);
+                isNegative = !isNegative;
+            }
+            if (exponentValue < 0)
+            {
+                exponentValue = Math.Abs(exponentValue);
+                isNegative = !isNegative;
+            }
+
+            double value = Math.Pow(baseValue, exponentValue);
+
+            if (isNegative && exponentValue % 2 != 0)
+            {
+                value = -value;
+            }
+
+            return value;
         }
     }
 }

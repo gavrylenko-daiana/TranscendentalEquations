@@ -13,10 +13,10 @@ namespace TranscendentalEquations.Services
     {
         public double GetValueFromEquation(string input)
         {
-            if (input.Contains('^'))
-                input = ReplacePow(input);
             if (input.Contains("sin") || input.Contains("cos") || input.Contains("tg") || input.Contains("ctg"))
                 input = ReplaceTriginometry(input);
+            if (input.Contains('^'))
+                input = ReplacePow(input);
             if (input.Contains("sqrt"))
                 input = ReplaceSqrt(input);
             if (input.Contains('|'))
@@ -24,17 +24,20 @@ namespace TranscendentalEquations.Services
 
             return GetResultValue(input);
         }
-
         private string ReplacePow(string input)
         {
             List<(string arg, string exp)> components = GetComponentsForPow(input);
-            foreach (var component in components)
+            while (components.Count > 0)
             {
+                var component = components[0];
                 double baseResult = GetValueFromEquation(component.arg);
                 double exponentResult = GetValueFromEquation(component.exp);
-                double value = Math.Pow(baseResult, exponentResult);
+
+                double value = CalculatePower(baseResult, exponentResult);
+
                 value = Math.Round(value, 4);
                 input = input.Replace($"({component.arg})^({component.exp})", value.ToString());
+                components = GetComponentsForPow(input);
             }
             return input.Replace(",", ".");
         }
