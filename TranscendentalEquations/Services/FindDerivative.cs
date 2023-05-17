@@ -29,7 +29,7 @@ namespace TranscendentalEquations.Services
             var matches = Regex.Matches(input, @"(?<!\()\b(x|\d+)\b(?!\))");
             foreach (Match match in matches)
             {
-                var derivative = match.Value == "x" ? "1" : "0";
+                var derivative = match.Value == "x" ? "1" : match.Value;
 
                 input = input.Remove(match.Index, match.Length).Insert(match.Index, derivative);
             }

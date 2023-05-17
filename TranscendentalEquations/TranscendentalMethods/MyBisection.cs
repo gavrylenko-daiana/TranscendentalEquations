@@ -10,14 +10,10 @@ using TranscendentalEquations.Helper;
 
 namespace TranscendentalEquations.TranscendentalMethods
 {
-    public class Bisection : FindFunction
+    public class MyBisection : FindFunction
     {
-        public double BisectionMethod(string equation)
+        public (double, double) BisectionMethod(string equation, int maxIterations, double tolerance, double a, double b)
         {
-            double a = 0.8, b = 1.1; // -
-            double tolerance = 0.0001; // -
-            int maxIterations = 100; // -
-
             double x = 1;
             bool isComplete = false;
 
@@ -51,14 +47,15 @@ namespace TranscendentalEquations.TranscendentalMethods
                 if (!isComplete)
                 {
                     tolerance = tolerance.GetTolerance(fx);
+                    tolerance = tolerance == -0 ? 0 : tolerance;
                 }
             }
             else
             {
-                return double.NaN;
+                return (double.NaN, tolerance);
             }
 
-            return Math.Round(x, 4);
+            return (Math.Round(x, 4), tolerance);
         }
     }
 }

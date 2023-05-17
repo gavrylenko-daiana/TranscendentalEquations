@@ -7,17 +7,12 @@ using TranscendentalEquations.Services;
 
 namespace TranscendentalEquations.TranscendentalMethods
 {
-    public class Secant : FindFunction
+    public class MySecant : FindFunction
     {
-        public double SecantMethod(string equation)
+        public double SecantMethod(string equation, int maxIterations, double tolerance, double x0, double x1)
         {
-            double x0 = 0.8;
-            double x1 = 1.1;
-
             double x2 = 0;
-            double tolerance = 0.0001;
-            int maxIterations = 100;
-
+            
             double fx0 = f(x0, equation);
             double fx1 = f(x1, equation);
 
@@ -35,7 +30,7 @@ namespace TranscendentalEquations.TranscendentalMethods
                 fx1 = f(x2, equation);
             }
 
-            return double.NaN;
+            return fx1;
         }
     }
 }

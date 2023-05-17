@@ -24,6 +24,7 @@ namespace TranscendentalEquations.Services
 
             return GetResultValue(input);
         }
+
         private string ReplacePow(string input)
         {
             List<(string arg, string exp)> components = GetComponentsForPow(input);
@@ -134,10 +135,19 @@ namespace TranscendentalEquations.Services
         private double GetResultValue(string input)
         {
             string str = input.Replace(",", ".");
-            double value = Convert.ToDouble(Convert.ToDecimal(new DataTable().Compute(str, null)));
-            value = Math.Round(value, 4);
 
-            return value;
+            try 
+            { 
+                double value = Convert.ToDouble(Convert.ToDecimal(new DataTable().Compute(str, null)));
+                value = Math.Round(value, 4);
+
+                return value;
+            }
+            catch
+            {
+                MessageBox.Show("It is not possible to calculate this equation using this method.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return double.NaN;
+            }
         }
     }
 }
