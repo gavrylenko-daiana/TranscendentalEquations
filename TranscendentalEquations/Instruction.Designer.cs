@@ -51,6 +51,9 @@
             label21 = new Label();
             label22 = new Label();
             label23 = new Label();
+            label24 = new Label();
+            label25 = new Label();
+            label26 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -276,11 +279,41 @@
             label23.TabIndex = 23;
             label23.Text = "_________________________________________________________________________";
             // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new Point(5, 266);
+            label24.Name = "label24";
+            label24.Size = new Size(372, 15);
+            label24.TabIndex = 24;
+            label24.Text = "_________________________________________________________________________";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new Point(6, 251);
+            label25.Name = "label25";
+            label25.Size = new Size(132, 15);
+            label25.TabIndex = 25;
+            label25.Text = "Logarithm: log(base, x);";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new Point(144, 251);
+            label26.Name = "label26";
+            label26.Size = new Size(106, 15);
+            label26.TabIndex = 26;
+            label26.Text = "Example: log(2;(8))";
+            // 
             // Instruction
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
+            Controls.Add(label26);
+            Controls.Add(label25);
+            Controls.Add(label24);
             Controls.Add(label23);
             Controls.Add(label22);
             Controls.Add(label21);
@@ -305,7 +338,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "Instruction";
-            Size = new Size(392, 246);
+            Size = new Size(387, 281);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -335,5 +368,8 @@
         private Label label21;
         private Label label22;
         private Label label23;
+        private Label label24;
+        private Label label25;
+        private Label label26;
     }
 }
