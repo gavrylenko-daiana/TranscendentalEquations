@@ -35,7 +35,6 @@ namespace TranscendentalEquations.TranscendentalMethods
                     x = (a + b) / 2;
                     fx = f(x, equation);
 
-                    // Добавление промежуточных данных в intermediateData
                     intermediateData.AppendLine($"Iteration: {i + 1}");
                     intermediateData.AppendLine($"x = {Math.Round(x, 4)}");
                     intermediateData.AppendLine($"f(x) = {Math.Round(fx, 4)}");

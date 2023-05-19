@@ -45,7 +45,7 @@ namespace TranscendentalEquations.Services
             return input.Replace(",", ".");
         }
 
-        string ReplaceLogarithm(string input)
+        private string ReplaceLogarithm(string input)
         {
             List<string> arguments = GetLogArguments(input);
             int index = 0;
@@ -80,7 +80,6 @@ namespace TranscendentalEquations.Services
             }
             return input;
         }
-
 
         private string ReplaceTriginometry(string input)
         {

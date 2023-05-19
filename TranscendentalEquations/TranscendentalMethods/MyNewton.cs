@@ -37,7 +37,6 @@ public class MyNewton : FindFunction
 
             x -= fx / dfx;
 
-            // Добавление промежуточных данных в intermediateData
             intermediateData.AppendLine($"Iteration: {i + 1}");
             intermediateData.AppendLine($"x = {Math.Round(x, 4)}");
             intermediateData.AppendLine($"f(x) = {Math.Round(fx, 4)}");
