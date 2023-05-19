@@ -9,7 +9,14 @@ using TranscendentalEquations.Services;
 namespace TranscendentalEquations.TranscendentalMethods;
 public class MyNewton : FindFunction
 {
-    public (double, double) NewtonsMethod(string equation, int maxIterations, double tolerance)
+    private StringBuilder intermediateData;
+
+    public MyNewton(StringBuilder intermediateData)
+    {
+        this.intermediateData = intermediateData;
+    }
+
+    public double NewtonsMethod(string equation, int maxIterations, double tolerance)
     {
         double x = 1;
         bool isComplete = false;
@@ -29,6 +36,13 @@ public class MyNewton : FindFunction
             }
 
             x -= fx / dfx;
+
+            // Добавление промежуточных данных в intermediateData
+            intermediateData.AppendLine($"Iteration: {i + 1}");
+            intermediateData.AppendLine($"x = {Math.Round(x, 4)}");
+            intermediateData.AppendLine($"f(x) = {Math.Round(fx, 4)}");
+            intermediateData.AppendLine($"df(x) = {Math.Round(dfx, 4)}");
+            intermediateData.AppendLine();
         }
 
         if (!isComplete)
@@ -37,6 +51,6 @@ public class MyNewton : FindFunction
             tolerance = tolerance == -0 ? 0 : tolerance;
         }
 
-        return (Math.Round(x, 4), tolerance);
+        return Math.Round(x, 4);
     }
 }

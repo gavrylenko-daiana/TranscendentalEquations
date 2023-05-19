@@ -48,13 +48,19 @@
             OutputForButton2Click = new TextBox();
             OutputForButton3Click = new TextBox();
             helpButton = new Button();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            openInfrmationToolStripMenuItem = new ToolStripMenuItem();
+            infoAboutNewtonMethodToolStripMenuItem = new ToolStripMenuItem();
+            infoAboutSecantMethodToolStripMenuItem = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // textBox1
             // 
             textBox1.BackColor = SystemColors.HighlightText;
             textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(95, 22);
+            textBox1.Location = new Point(96, 39);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(347, 29);
             textBox1.TabIndex = 0;
@@ -62,7 +68,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(146, 195);
+            button1.Location = new Point(140, 211);
             button1.Name = "button1";
             button1.Size = new Size(137, 43);
             button1.TabIndex = 1;
@@ -74,7 +80,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Constantia", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(12, 27);
+            label1.Location = new Point(13, 44);
             label1.Name = "label1";
             label1.Size = new Size(77, 19);
             label1.TabIndex = 2;
@@ -83,14 +89,14 @@
             // textBox2
             // 
             textBox2.BackColor = SystemColors.Window;
-            textBox2.Location = new Point(172, 71);
+            textBox2.Location = new Point(173, 88);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(72, 23);
             textBox2.TabIndex = 4;
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(365, 71);
+            textBox3.Location = new Point(366, 88);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(77, 23);
             textBox3.TabIndex = 5;
@@ -99,7 +105,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Constantia", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(12, 75);
+            label2.Location = new Point(13, 92);
             label2.Name = "label2";
             label2.Size = new Size(154, 19);
             label2.TabIndex = 6;
@@ -109,7 +115,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Constantia", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(283, 75);
+            label3.Location = new Point(284, 92);
             label3.Name = "label3";
             label3.Size = new Size(76, 19);
             label3.TabIndex = 7;
@@ -119,7 +125,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Constantia", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.Location = new Point(130, 166);
+            label4.Location = new Point(124, 182);
             label4.Name = "label4";
             label4.Size = new Size(168, 26);
             label4.TabIndex = 8;
@@ -127,7 +133,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(146, 244);
+            button2.Location = new Point(140, 260);
             button2.Name = "button2";
             button2.Size = new Size(137, 43);
             button2.TabIndex = 11;
@@ -136,7 +142,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(146, 293);
+            button3.Location = new Point(140, 309);
             button3.Name = "button3";
             button3.Size = new Size(137, 43);
             button3.TabIndex = 12;
@@ -145,14 +151,14 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(104, 119);
+            textBox4.Location = new Point(105, 136);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(37, 23);
             textBox4.TabIndex = 15;
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(163, 119);
+            textBox5.Location = new Point(164, 136);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(38, 23);
             textBox5.TabIndex = 14;
@@ -161,7 +167,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Constantia", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(17, 123);
+            label5.Location = new Point(18, 140);
             label5.Name = "label5";
             label5.Size = new Size(149, 19);
             label5.TabIndex = 13;
@@ -172,7 +178,7 @@
             button4.BackColor = Color.PaleTurquoise;
             button4.FlatStyle = FlatStyle.Flat;
             button4.ForeColor = Color.Red;
-            button4.Location = new Point(207, 118);
+            button4.Location = new Point(208, 135);
             button4.Name = "button4";
             button4.Size = new Size(20, 23);
             button4.TabIndex = 16;
@@ -184,7 +190,7 @@
             OutputForButton1Click.BackColor = SystemColors.HighlightText;
             OutputForButton1Click.Enabled = false;
             OutputForButton1Click.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            OutputForButton1Click.Location = new Point(289, 200);
+            OutputForButton1Click.Location = new Point(283, 216);
             OutputForButton1Click.Name = "OutputForButton1Click";
             OutputForButton1Click.ReadOnly = true;
             OutputForButton1Click.Size = new Size(115, 29);
@@ -197,7 +203,7 @@
             OutputForButton2Click.BackColor = SystemColors.HighlightText;
             OutputForButton2Click.Enabled = false;
             OutputForButton2Click.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            OutputForButton2Click.Location = new Point(289, 250);
+            OutputForButton2Click.Location = new Point(283, 266);
             OutputForButton2Click.Name = "OutputForButton2Click";
             OutputForButton2Click.ReadOnly = true;
             OutputForButton2Click.Size = new Size(115, 29);
@@ -210,7 +216,7 @@
             OutputForButton3Click.BackColor = SystemColors.HighlightText;
             OutputForButton3Click.Enabled = false;
             OutputForButton3Click.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            OutputForButton3Click.Location = new Point(289, 299);
+            OutputForButton3Click.Location = new Point(283, 315);
             OutputForButton3Click.Name = "OutputForButton3Click";
             OutputForButton3Click.ReadOnly = true;
             OutputForButton3Click.Size = new Size(115, 29);
@@ -223,13 +229,50 @@
             helpButton.BackColor = Color.PaleTurquoise;
             helpButton.FlatStyle = FlatStyle.Flat;
             helpButton.ForeColor = Color.Red;
-            helpButton.Location = new Point(448, 22);
+            helpButton.Location = new Point(449, 39);
             helpButton.Name = "helpButton";
             helpButton.Size = new Size(20, 26);
             helpButton.TabIndex = 18;
             helpButton.Text = "?";
             helpButton.UseVisualStyleBackColor = false;
             helpButton.Click += helpButton_Click;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(515, 24);
+            menuStrip1.TabIndex = 19;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openInfrmationToolStripMenuItem, infoAboutNewtonMethodToolStripMenuItem, infoAboutSecantMethodToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
+            // 
+            // openInfrmationToolStripMenuItem
+            // 
+            openInfrmationToolStripMenuItem.Name = "openInfrmationToolStripMenuItem";
+            openInfrmationToolStripMenuItem.Size = new Size(225, 22);
+            openInfrmationToolStripMenuItem.Text = "Info about Bisection method";
+            openInfrmationToolStripMenuItem.Click += openInfrmationToolStripMenuItem_Click;
+            // 
+            // infoAboutNewtonMethodToolStripMenuItem
+            // 
+            infoAboutNewtonMethodToolStripMenuItem.Name = "infoAboutNewtonMethodToolStripMenuItem";
+            infoAboutNewtonMethodToolStripMenuItem.Size = new Size(225, 22);
+            infoAboutNewtonMethodToolStripMenuItem.Text = "Info about Newton method";
+            infoAboutNewtonMethodToolStripMenuItem.Click += infoAboutNewtonMethodToolStripMenuItem_Click;
+            // 
+            // infoAboutSecantMethodToolStripMenuItem
+            // 
+            infoAboutSecantMethodToolStripMenuItem.Name = "infoAboutSecantMethodToolStripMenuItem";
+            infoAboutSecantMethodToolStripMenuItem.Size = new Size(225, 22);
+            infoAboutSecantMethodToolStripMenuItem.Text = "Info about Secant method";
+            infoAboutSecantMethodToolStripMenuItem.Click += infoAboutSecantMethodToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -255,11 +298,15 @@
             Controls.Add(OutputForButton1Click);
             Controls.Add(OutputForButton2Click);
             Controls.Add(OutputForButton3Click);
+            Controls.Add(menuStrip1);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             ForeColor = SystemColors.HotTrack;
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Transcendental Equation";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -285,5 +332,10 @@
         private TextBox OutputForButton2Click;
         private TextBox OutputForButton3Click;
         private Button helpButton;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem openInfrmationToolStripMenuItem;
+        private ToolStripMenuItem infoAboutNewtonMethodToolStripMenuItem;
+        private ToolStripMenuItem infoAboutSecantMethodToolStripMenuItem;
     }
 }

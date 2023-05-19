@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using TranscendentalEquations.Helper;
 using TranscendentalEquations.Services;
 using TranscendentalEquations.TranscendentalMethods;
 using TranscendentalEquations.Validation;
@@ -86,54 +87,75 @@ public partial class Form1 : Form
 
         try
         {
+            StringBuilder intermediateData = new StringBuilder();
+            intermediateData.AppendLine($"Method: {nameof(MyBisection)}");
+            intermediateData.AppendLine($"Equation: {textBox1.Text}");
+            intermediateData.AppendLine($"Max Iterations: {textBox2.Text}");
+            intermediateData.AppendLine($"Tolerance: {textBox3.Text}");
+            intermediateData.AppendLine();
+
             MyBisection bisection = new MyBisection(intermediateData);
-            (double, double) result = bisection.BisectionMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text), Convert.ToDouble(textBox5.Text));
+            double result = bisection.BisectionMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text), Convert.ToDouble(textBox5.Text));
 
             CorrectionEquation correctionEquation = new CorrectionEquation();
             correctionEquation.CheckResult(result);
 
-            intermediateData.AppendLine($"Method: {nameof(MyBisection)}");
-            intermediateData.AppendLine($"Equation: {textBox1.Text}");
-            intermediateData.AppendLine($"Max Iterations: {textBox2.Text}");
-            intermediateData.AppendLine($"Tolerance: {textBox5.Text}");
             intermediateData.AppendLine($"Result: {result}");
             intermediateData.AppendLine();
 
-            // Запись промежуточных данных и результата в файл
-            string intermediateDataFileName = "intermediate_data.txt";
-            File.WriteAllText(intermediateDataFileName, intermediateData.ToString());
+            string intermediateDataFileName = $"data_from_bisection.txt";
+
+            FileHelper fileHelper = new FileHelper();
+            fileHelper.WriteToFile(intermediateDataFileName, intermediateData.ToString());
 
             OutputForButtonClick_Update(OutputForButton1Click, Convert.ToString(result));
 
-            MessageBox.Show("Bisection method completed. Intermediate data saved to intermediate_data.txt.");
+            MessageBox.Show($"Bisection method completed. Intermediate data saved to {intermediateDataFileName}.");
         }
         catch
         {
             MessageBox.Show("You didn`t follow the instruction!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+
 
     private void button2_Click(object? sender, EventArgs e)
     {
         CorrectSpellingInput();
         OutputForButton2Click.Visible = true;
 
-        MyNewton newtons = new MyNewton();
         try
         {
-            (double, double) result = newtons.NewtonsMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text));
+            StringBuilder intermediateData = new StringBuilder();
+            intermediateData.AppendLine($"Method: {nameof(MyNewton)}");
+            intermediateData.AppendLine($"Equation: {textBox1.Text}");
+            intermediateData.AppendLine($"Max Iterations: {textBox2.Text}");
+            intermediateData.AppendLine($"Tolerance: {textBox3.Text}");
+            intermediateData.AppendLine();
+
+            MyNewton newton = new MyNewton(intermediateData);
+            double result = newton.NewtonsMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text));
 
             CorrectionEquation correctionEquation = new CorrectionEquation();
             correctionEquation.CheckResult(result);
 
+            intermediateData.AppendLine($"Result: {result}");
+            intermediateData.AppendLine();
+
+            string intermediateDataFileName = $"data_from_newton.txt";
+
+            FileHelper fileHelper = new FileHelper();
+            fileHelper.WriteToFile(intermediateDataFileName, intermediateData.ToString());
+
             OutputForButtonClick_Update(OutputForButton2Click, Convert.ToString(result));
+
+            MessageBox.Show($"Newton method completed. Intermediate data saved to {intermediateDataFileName}.");
         }
         catch
         {
             MessageBox.Show("You didn`t follow the instruction!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
-
     private void button3_Click(object? sender, EventArgs e)
     {
         CorrectSpellingInput();
@@ -141,17 +163,34 @@ public partial class Form1 : Form
 
         try
         {
-            MySecant secant = new MySecant();
+            StringBuilder intermediateData = new StringBuilder();
+            intermediateData.AppendLine($"Method: {nameof(MySecant)}");
+            intermediateData.AppendLine($"Equation: {textBox1.Text}");
+            intermediateData.AppendLine($"Max Iterations: {textBox2.Text}");
+            intermediateData.AppendLine($"Tolerance: {textBox3.Text}");
+            intermediateData.AppendLine();
+
+            MySecant secant = new MySecant(intermediateData);
             double result = secant.SecantMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text), Convert.ToDouble(textBox5.Text));
 
             CorrectionEquation correctionEquation = new CorrectionEquation();
             correctionEquation.CheckResult(result);
 
+            intermediateData.AppendLine($"Result: {result}");
+            intermediateData.AppendLine();
+
+            string intermediateDataFileName = $"data_from_secant.txt";
+
+            FileHelper fileHelper = new FileHelper();
+            fileHelper.WriteToFile(intermediateDataFileName, intermediateData.ToString());
+
             OutputForButtonClick_Update(OutputForButton3Click, Convert.ToString(result));
+
+            MessageBox.Show($"Secant method completed. Intermediate data saved to {intermediateDataFileName}.");
         }
         catch
         {
-            MessageBox.Show("You didn`t follow the instruction!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("You didn't follow the instruction!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 
@@ -196,19 +235,28 @@ public partial class Form1 : Form
         helpIsOpened = !helpIsOpened;
     }
 
-    private void SaveDataToFile(string equation, string methodName, string iterationNumber, string intermediateData, string result)
+    private void openInfrmationToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        string filename = $"Equation_{DateTime.Now:yyyyMMddHHmmss}.txt";
-        string filePath = Path.Combine(Environment.CurrentDirectory, filename);
+        string intermediateDataFileName = "data_from_bisection.txt";
 
-        using (StreamWriter writer = new StreamWriter(filePath))
-        {
-            writer.WriteLine($"Equation: {equation}");
-            writer.WriteLine($"Method: {methodName}");
-            writer.WriteLine($"Iteration: {iterationNumber}");
-            writer.WriteLine($"Intermediate Data: {intermediateData}");
-            writer.WriteLine($"Result: {result}");
-        }
+        FileHelper fileHelper = new FileHelper();
+        fileHelper.ReadFromFile(intermediateDataFileName);
+    }
+
+    private void infoAboutNewtonMethodToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        string intermediateDataFileName = "data_from_newton.txt";
+
+        FileHelper fileHelper = new FileHelper();
+        fileHelper.ReadFromFile(intermediateDataFileName);
+    }
+
+    private void infoAboutSecantMethodToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        string intermediateDataFileName = "data_from_secant.txt";
+
+        FileHelper fileHelper = new FileHelper();
+        fileHelper.ReadFromFile(intermediateDataFileName);
     }
 }
 
@@ -226,8 +274,6 @@ public partial class Form1 : Form
 // 5*cos((x)^(2))-3*x
 // cos(5*x)+|x-(x)^(2)|-pi+|2*(x-1)|-(x)^(sin(x+2))+15*pi-e/(tg(x))^(2)
 // cos(5*(0.25)^(3))+|0.25-(0.25)^(2)|+|2*(0.25-1)|+15/(tg(-5*0.25))^(2)-(0.25+2)^(sin(0.25-1))/12-(2-(5-2))^(3)
-
-
 
 // (x)^(3)+3*(x)^(2)+12*x+8   -5;5  (1, 2, 3)
 // 5*cos(x)   0.5;1.5  (2, 3)

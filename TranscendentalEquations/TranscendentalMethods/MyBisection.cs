@@ -19,7 +19,7 @@ namespace TranscendentalEquations.TranscendentalMethods
             this.intermediateData = intermediateData;
         }
 
-        public (double, double) BisectionMethod(string equation, int maxIterations, double tolerance, double a, double b)
+        public double BisectionMethod(string equation, int maxIterations, double tolerance, double a, double b)
         {
             double x = 1;
             bool isComplete = false;
@@ -65,10 +65,10 @@ namespace TranscendentalEquations.TranscendentalMethods
             }
             else
             {
-                return (double.NaN, double.NaN);
+                return double.NaN;
             }
 
-            return (Math.Round(x, 4), tolerance);
+            return Math.Round(x, 4);
         }
     }
 }
