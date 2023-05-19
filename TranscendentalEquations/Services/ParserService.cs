@@ -17,6 +17,8 @@ namespace TranscendentalEquations.Services
                 input = ReplaceTriginometry(input);
             if (input.Contains('^'))
                 input = ReplacePow(input);
+            if (input.Contains("log"))
+                input = ReplaceLogarithm(input);
             if (input.Contains("sqrt"))
                 input = ReplaceSqrt(input);
             if (input.Contains('|'))
@@ -42,6 +44,43 @@ namespace TranscendentalEquations.Services
             }
             return input.Replace(",", ".");
         }
+
+        string ReplaceLogarithm(string input)
+        {
+            List<string> arguments = GetLogArguments(input);
+            int index = 0;
+            while (index < input.Length)
+            {
+                index = FindNextLogKeyword(input, index);
+                if (index == -1) break;
+                int startIndex = index;
+                index += 3;
+                index = SkipWhitespace(input, index);
+                if (IsOpeningParenthesis(input, index))
+                {
+                    index++;
+                    int endIndex = FindClosingParenthesis(input, index);
+                    if (endIndex != -1)
+                    {
+                        string baseAndArgument = input.Substring(index, endIndex - index);
+                        int semicolonIndex = baseAndArgument.IndexOf(';');
+                        if (semicolonIndex != -1)
+                        {
+                            string baseString = baseAndArgument.Substring(0, semicolonIndex).Trim();
+                            double baseValue = GetValueFromEquation(baseString);
+                            string argumentString = arguments[0];
+                            arguments.RemoveAt(0);
+                            double argumentValue = GetValueFromEquation(argumentString);
+                            double result = Math.Log(argumentValue, baseValue);
+                            input = input.Remove(startIndex, endIndex - startIndex + 1).Insert(startIndex, result.ToString());
+                            index = startIndex + result.ToString().Length;
+                        }
+                    }
+                }
+            }
+            return input;
+        }
+
 
         private string ReplaceTriginometry(string input)
         {

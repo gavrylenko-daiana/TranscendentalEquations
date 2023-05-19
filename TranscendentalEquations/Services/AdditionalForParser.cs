@@ -148,6 +148,93 @@ namespace TranscendentalEquations.Services
         }
         #endregion
 
+        #region log
+        protected List<string> GetLogArguments(string input)
+        {
+            List<string> arguments = new List<string>();
+            int index = 0;
+            while (index < input.Length)
+            {
+                index = FindNextLogKeyword(input, index);
+                if (index == -1) break;
+                index += 3;
+                while (index < input.Length && (input[index] == ' ' || input[index] == '\t' || input[index] == '\r' || input[index] == '\n')) index++;
+                if (index < input.Length && input[index] == '(')
+                {
+                    index++;
+                    int openCount = 1;
+                    int endIndex = -1;
+                    for (int i = index; i < input.Length; i++)
+                    {
+                        if (input[i] == '(')
+                        {
+                            openCount++;
+                        }
+                        else if (input[i] == ')')
+                        {
+                            openCount--;
+                            if (openCount == 0)
+                            {
+                                endIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                    if (endIndex != -1)
+                    {
+                        string argument = input.Substring(index, endIndex - index);
+                        int semicolonIndex = argument.IndexOf(';');
+                        if (semicolonIndex != -1)
+                        {
+                            argument = argument.Substring(semicolonIndex + 1).Trim();
+                            arguments.Add(argument);
+                        }
+                    }
+                }
+            }
+            return arguments;
+        }
+
+        protected int FindNextLogKeyword(string input, int startIndex)
+        {
+            return input.IndexOf("log", startIndex);
+        }
+
+        protected int SkipWhitespace(string input, int startIndex)
+        {
+            while (startIndex < input.Length && (input[startIndex] == ' ' || input[startIndex] == '\t' || input[startIndex] == '\r' || input[startIndex] == '\n')) startIndex++;
+            return startIndex;
+        }
+
+        protected bool IsOpeningParenthesis(string input, int index)
+        {
+            return index < input.Length && input[index] == '(';
+        }
+
+        protected int FindClosingParenthesis(string input, int startIndex)
+        {
+            int openCount = 1;
+            int endIndex = -1;
+            for (int i = startIndex; i < input.Length; i++)
+            {
+                if (input[i] == '(')
+                {
+                    openCount++;
+                }
+                else if (input[i] == ')')
+                {
+                    openCount--;
+                    if (openCount == 0)
+                    {
+                        endIndex = i;
+                        break;
+                    }
+                }
+            }
+            return endIndex;
+        }
+        #endregion
+
         protected bool IsOperator(char c)
         {
             return c == '+' || c == '-' || c == '*' || c == '/';
