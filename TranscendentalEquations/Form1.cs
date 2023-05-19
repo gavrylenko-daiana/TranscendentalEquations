@@ -1,4 +1,5 @@
-using MathNet.Numerics.RootFinding;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using TranscendentalEquations.Services;
 using TranscendentalEquations.TranscendentalMethods;
@@ -8,6 +9,7 @@ namespace TranscendentalEquations;
 
 public partial class Form1 : Form
 {
+    private StringBuilder intermediateData = new StringBuilder();
     private Label resultLabel = new Label();
     private Instruction instruction = new Instruction();
     private bool helpIsOpened = false;
@@ -84,13 +86,26 @@ public partial class Form1 : Form
 
         try
         {
-            MyBisection bisection = new MyBisection();
+            MyBisection bisection = new MyBisection(intermediateData);
             (double, double) result = bisection.BisectionMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text), Convert.ToDouble(textBox5.Text));
 
             CorrectionEquation correctionEquation = new CorrectionEquation();
             correctionEquation.CheckResult(result);
 
+            intermediateData.AppendLine($"Method: {nameof(MyBisection)}");
+            intermediateData.AppendLine($"Equation: {textBox1.Text}");
+            intermediateData.AppendLine($"Max Iterations: {textBox2.Text}");
+            intermediateData.AppendLine($"Tolerance: {textBox5.Text}");
+            intermediateData.AppendLine($"Result: {result}");
+            intermediateData.AppendLine();
+
+            // Запись промежуточных данных и результата в файл
+            string intermediateDataFileName = "intermediate_data.txt";
+            File.WriteAllText(intermediateDataFileName, intermediateData.ToString());
+
             OutputForButtonClick_Update(OutputForButton1Click, Convert.ToString(result));
+
+            MessageBox.Show("Bisection method completed. Intermediate data saved to intermediate_data.txt.");
         }
         catch
         {
@@ -107,7 +122,7 @@ public partial class Form1 : Form
         try
         {
             (double, double) result = newtons.NewtonsMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text));
-            
+
             CorrectionEquation correctionEquation = new CorrectionEquation();
             correctionEquation.CheckResult(result);
 
@@ -167,7 +182,7 @@ public partial class Form1 : Form
 
     private void helpButton_Click(object sender, EventArgs e)
     {
-        if(!helpIsOpened)
+        if (!helpIsOpened)
         {
             Controls.Add(instruction);
             instruction.Location = new Point((Width - instruction.Width) / 2, (Height - instruction.Height) / 2);
@@ -179,6 +194,21 @@ public partial class Form1 : Form
         }
 
         helpIsOpened = !helpIsOpened;
+    }
+
+    private void SaveDataToFile(string equation, string methodName, string iterationNumber, string intermediateData, string result)
+    {
+        string filename = $"Equation_{DateTime.Now:yyyyMMddHHmmss}.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, filename);
+
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            writer.WriteLine($"Equation: {equation}");
+            writer.WriteLine($"Method: {methodName}");
+            writer.WriteLine($"Iteration: {iterationNumber}");
+            writer.WriteLine($"Intermediate Data: {intermediateData}");
+            writer.WriteLine($"Result: {result}");
+        }
     }
 }
 

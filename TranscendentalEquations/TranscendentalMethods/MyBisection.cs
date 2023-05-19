@@ -12,6 +12,13 @@ namespace TranscendentalEquations.TranscendentalMethods
 {
     public class MyBisection : FindFunction
     {
+        private StringBuilder intermediateData;
+
+        public MyBisection(StringBuilder intermediateData)
+        {
+            this.intermediateData = intermediateData;
+        }
+
         public (double, double) BisectionMethod(string equation, int maxIterations, double tolerance, double a, double b)
         {
             double x = 1;
@@ -27,6 +34,12 @@ namespace TranscendentalEquations.TranscendentalMethods
                 {
                     x = (a + b) / 2;
                     fx = f(x, equation);
+
+                    // Добавление промежуточных данных в intermediateData
+                    intermediateData.AppendLine($"Iteration: {i + 1}");
+                    intermediateData.AppendLine($"x = {Math.Round(x, 4)}");
+                    intermediateData.AppendLine($"f(x) = {Math.Round(fx, 4)}");
+                    intermediateData.AppendLine();
 
                     if (Math.Abs(fx) < tolerance)
                     {
