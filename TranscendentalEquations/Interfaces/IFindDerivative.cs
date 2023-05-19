@@ -1,7 +1,6 @@
-﻿namespace TranscendentalEquations.Interfaces
+﻿namespace TranscendentalEquations.Interfaces;
+
+public interface IFindDerivative
 {
-    public interface IFindDerivative
-    {
-        string GetDerivativeFromString(string input);
-    }
+    string GetDerivativeFromString(string input);
 }

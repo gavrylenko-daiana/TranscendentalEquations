@@ -1,6 +1,6 @@
 ﻿namespace TranscendentalEquations.Helper;
 
-internal static class ToleranceExtension
+public static class ToleranceExtension
 {
     public static double GetTolerance(this double tolerance, double fx)
     {

@@ -7,6 +7,7 @@ using TranscendentalEquations.Helper;
 using TranscendentalEquations.Services;
 
 namespace TranscendentalEquations.TranscendentalMethods;
+
 public class MyNewton : FindFunction
 {
     private StringBuilder intermediateData;

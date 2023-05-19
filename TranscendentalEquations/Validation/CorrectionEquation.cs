@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.FSharp.Core.ByRefKinds;
 
 namespace TranscendentalEquations.Validation;
+
 public class CorrectionEquation
 {
     public string RemoveSpaces(string input)
