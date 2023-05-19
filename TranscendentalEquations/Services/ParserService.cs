@@ -145,7 +145,6 @@ namespace TranscendentalEquations.Services
             }
             catch
             {
-                MessageBox.Show("It is not possible to calculate this equation using this method.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return double.NaN;
             }
         }

@@ -47,6 +47,7 @@
             OutputForButton1Click = new TextBox();
             OutputForButton2Click = new TextBox();
             OutputForButton3Click = new TextBox();
+            helpButton = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -168,13 +169,15 @@
             // 
             // button4
             // 
+            button4.BackColor = Color.PaleTurquoise;
+            button4.FlatStyle = FlatStyle.Flat;
             button4.ForeColor = Color.Red;
             button4.Location = new Point(207, 118);
             button4.Name = "button4";
             button4.Size = new Size(20, 23);
             button4.TabIndex = 16;
             button4.Text = "!";
-            button4.UseVisualStyleBackColor = true;
+            button4.UseVisualStyleBackColor = false;
             // 
             // OutputForButton1Click
             // 
@@ -215,12 +218,26 @@
             OutputForButton3Click.TextAlign = HorizontalAlignment.Center;
             OutputForButton3Click.Visible = false;
             // 
+            // helpButton
+            // 
+            helpButton.BackColor = Color.PaleTurquoise;
+            helpButton.FlatStyle = FlatStyle.Flat;
+            helpButton.ForeColor = Color.Red;
+            helpButton.Location = new Point(448, 22);
+            helpButton.Name = "helpButton";
+            helpButton.Size = new Size(20, 26);
+            helpButton.TabIndex = 18;
+            helpButton.Text = "?";
+            helpButton.UseVisualStyleBackColor = false;
+            helpButton.Click += helpButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.GradientActiveCaption;
             ClientSize = new Size(515, 379);
+            Controls.Add(helpButton);
             Controls.Add(button4);
             Controls.Add(textBox4);
             Controls.Add(textBox5);
@@ -267,5 +284,6 @@
         private TextBox OutputForButton1Click;
         private TextBox OutputForButton2Click;
         private TextBox OutputForButton3Click;
+        private Button helpButton;
     }
 }

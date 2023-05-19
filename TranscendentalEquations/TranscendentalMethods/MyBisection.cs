@@ -52,7 +52,7 @@ namespace TranscendentalEquations.TranscendentalMethods
             }
             else
             {
-                return (double.NaN, tolerance);
+                return (double.NaN, double.NaN);
             }
 
             return (Math.Round(x, 4), tolerance);
