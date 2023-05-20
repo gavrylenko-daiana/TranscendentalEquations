@@ -2,6 +2,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using TranscendentalEquations.Helper;
+using TranscendentalEquations.Model;
 using TranscendentalEquations.Services;
 using TranscendentalEquations.TranscendentalMethods;
 using TranscendentalEquations.Validation;
@@ -88,27 +89,19 @@ public partial class Form1 : Form
         try
         {
             StringBuilder intermediateData = new StringBuilder();
-            intermediateData.AppendLine($"Method: {nameof(MyBisection)}");
-            intermediateData.AppendLine($"Equation: {textBox1.Text}");
-            intermediateData.AppendLine($"Max Iterations: {textBox2.Text}");
-            intermediateData.AppendLine($"Tolerance: {textBox3.Text}");
-            intermediateData.AppendLine();
-
-            MyBisection bisection = new MyBisection(intermediateData);
-            double result = bisection.BisectionMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text), Convert.ToDouble(textBox5.Text));
-
-            CorrectionEquation correctionEquation = new CorrectionEquation();
-            correctionEquation.CheckResult(result);
-
-            intermediateData.AppendLine($"Result: {result}");
-            intermediateData.AppendLine();
-
+            TranscendentalEquation bisection = new MyBisection(intermediateData);
+            EquationManager equationManager = new EquationManager();
             string intermediateDataFileName = $"data_from_bisection.txt";
 
-            FileHelper fileHelper = new FileHelper();
-            fileHelper.WriteToFile(intermediateDataFileName, intermediateData.ToString());
+            bisection.Equation = textBox1.Text;
+            bisection.MaxIterations = int.Parse(textBox2.Text);
+            bisection.Tolerance = Convert.ToDouble(textBox3.Text);
+            bisection.A = Convert.ToDouble(textBox4.Text);
+            bisection.B = Convert.ToDouble(textBox5.Text);
 
-            OutputForButtonClick_Update(OutputForButton1Click, Convert.ToString(result));
+            equationManager.EquationSolver(intermediateData, bisection, intermediateDataFileName);
+
+            OutputForButtonClick_Update(OutputForButton1Click, Convert.ToString(bisection.Result));
 
             MessageBox.Show($"Bisection method completed. Intermediate data saved to {intermediateDataFileName}.");
         }
@@ -118,7 +111,6 @@ public partial class Form1 : Form
         }
     }
 
-
     private void button2_Click(object? sender, EventArgs e)
     {
         CorrectSpellingInput();
@@ -127,27 +119,17 @@ public partial class Form1 : Form
         try
         {
             StringBuilder intermediateData = new StringBuilder();
-            intermediateData.AppendLine($"Method: {nameof(MyNewton)}");
-            intermediateData.AppendLine($"Equation: {textBox1.Text}");
-            intermediateData.AppendLine($"Max Iterations: {textBox2.Text}");
-            intermediateData.AppendLine($"Tolerance: {textBox3.Text}");
-            intermediateData.AppendLine();
-
-            MyNewton newton = new MyNewton(intermediateData);
-            double result = newton.NewtonsMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text));
-
-            CorrectionEquation correctionEquation = new CorrectionEquation();
-            correctionEquation.CheckResult(result);
-
-            intermediateData.AppendLine($"Result: {result}");
-            intermediateData.AppendLine();
-
+            TranscendentalEquation newton = new MyNewton(intermediateData);
+            EquationManager equationManager = new EquationManager();
             string intermediateDataFileName = $"data_from_newton.txt";
 
-            FileHelper fileHelper = new FileHelper();
-            fileHelper.WriteToFile(intermediateDataFileName, intermediateData.ToString());
+            newton.Equation = textBox1.Text;
+            newton.MaxIterations = int.Parse(textBox2.Text);
+            newton.Tolerance = Convert.ToDouble(textBox3.Text);
 
-            OutputForButtonClick_Update(OutputForButton2Click, Convert.ToString(result));
+            equationManager.EquationSolver(intermediateData, newton, intermediateDataFileName);
+
+            OutputForButtonClick_Update(OutputForButton2Click, Convert.ToString(newton.Result));
 
             MessageBox.Show($"Newton method completed. Intermediate data saved to {intermediateDataFileName}.");
         }
@@ -164,27 +146,19 @@ public partial class Form1 : Form
         try
         {
             StringBuilder intermediateData = new StringBuilder();
-            intermediateData.AppendLine($"Method: {nameof(MySecant)}");
-            intermediateData.AppendLine($"Equation: {textBox1.Text}");
-            intermediateData.AppendLine($"Max Iterations: {textBox2.Text}");
-            intermediateData.AppendLine($"Tolerance: {textBox3.Text}");
-            intermediateData.AppendLine();
-
-            MySecant secant = new MySecant(intermediateData);
-            double result = secant.SecantMethod(textBox1.Text, int.Parse(textBox2.Text), Convert.ToDouble(textBox3.Text), Convert.ToDouble(textBox4.Text), Convert.ToDouble(textBox5.Text));
-
-            CorrectionEquation correctionEquation = new CorrectionEquation();
-            correctionEquation.CheckResult(result);
-
-            intermediateData.AppendLine($"Result: {result}");
-            intermediateData.AppendLine();
-
+            TranscendentalEquation secant = new MySecant(intermediateData);
+            EquationManager equationManager = new EquationManager();
             string intermediateDataFileName = $"data_from_secant.txt";
 
-            FileHelper fileHelper = new FileHelper();
-            fileHelper.WriteToFile(intermediateDataFileName, intermediateData.ToString());
+            secant.Equation = textBox1.Text;
+            secant.MaxIterations = int.Parse(textBox2.Text);
+            secant.Tolerance = Convert.ToDouble(textBox3.Text);
+            secant.A = Convert.ToDouble(textBox4.Text);
+            secant.B = Convert.ToDouble(textBox5.Text);
 
-            OutputForButtonClick_Update(OutputForButton3Click, Convert.ToString(result));
+            equationManager.EquationSolver(intermediateData, secant, intermediateDataFileName);
+            
+            OutputForButtonClick_Update(OutputForButton3Click, Convert.ToString(secant.Result));
 
             MessageBox.Show($"Secant method completed. Intermediate data saved to {intermediateDataFileName}.");
         }
@@ -239,7 +213,7 @@ public partial class Form1 : Form
     {
         string intermediateDataFileName = "data_from_bisection.txt";
 
-        FileHelper fileHelper = new FileHelper();
+        FileManager fileHelper = new FileManager();
         fileHelper.ReadFromFile(intermediateDataFileName);
     }
 
@@ -247,7 +221,7 @@ public partial class Form1 : Form
     {
         string intermediateDataFileName = "data_from_newton.txt";
 
-        FileHelper fileHelper = new FileHelper();
+        FileManager fileHelper = new FileManager();
         fileHelper.ReadFromFile(intermediateDataFileName);
     }
 
@@ -255,7 +229,7 @@ public partial class Form1 : Form
     {
         string intermediateDataFileName = "data_from_secant.txt";
 
-        FileHelper fileHelper = new FileHelper();
+        FileManager fileHelper = new FileManager();
         fileHelper.ReadFromFile(intermediateDataFileName);
     }
 }

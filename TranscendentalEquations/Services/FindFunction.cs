@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TranscendentalEquations.AbstractClass;
+using TranscendentalEquations.Interfaces;
+using TranscendentalEquations.Model;
 
 namespace TranscendentalEquations.Services;
 
-public class FindFunction : FindFunctionAbstract
+public class FindFunction : IFindFunction
 {
-    protected override double f(double x, string equation)
+    public double f(double x, string equation)
     {
         ParserService parserService = new ParserService();
         equation = equation.Replace("x", x.ToString()).Replace(",", ".");
@@ -22,7 +23,7 @@ public class FindFunction : FindFunctionAbstract
         return result;
     }
 
-    protected override double df(double x, string equation)
+    public double df(double x, string equation)
     {
         FindDerivative findDerivative = new FindDerivative();
 
@@ -34,3 +35,5 @@ public class FindFunction : FindFunctionAbstract
         return result;
     }
 }
+
+

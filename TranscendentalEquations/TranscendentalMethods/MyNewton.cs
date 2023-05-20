@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TranscendentalEquations.Helper;
+using TranscendentalEquations.Model;
 using TranscendentalEquations.Services;
 
 namespace TranscendentalEquations.TranscendentalMethods;
 
-public class MyNewton : FindFunction
+public class MyNewton : TranscendentalEquation
 {
     private StringBuilder intermediateData;
 
@@ -17,20 +18,22 @@ public class MyNewton : FindFunction
         this.intermediateData = intermediateData;
     }
 
-    public double NewtonsMethod(string equation, int maxIterations, double tolerance)
+    public override double Solve()
     {
+        FindFunction findFunction = new FindFunction();
+
         double x = 1;
         bool isComplete = false;
 
-        double fx = f(x, equation);
-        double dfx = df(x, equation);
+        double fx = findFunction.f(x, Equation);
+        double dfx = findFunction.df(x, Equation);
 
-        for (int i = 0; i < maxIterations; i++)
+        for (int i = 0; i < MaxIterations; i++)
         {
-            fx = f(x, equation);
-            dfx = df(x, equation);
+            fx = findFunction.f(x, Equation);
+            dfx = findFunction.df(x, Equation);
 
-            if (Math.Abs(fx) < tolerance)
+            if (Math.Abs(fx) < Tolerance)
             {
                 isComplete = true;
                 break;
@@ -47,8 +50,8 @@ public class MyNewton : FindFunction
 
         if (!isComplete)
         {
-            tolerance = tolerance.GetTolerance(fx);
-            tolerance = tolerance == -0 ? 0 : tolerance;
+            Tolerance = Tolerance.GetTolerance(fx);
+            Tolerance = Tolerance == -0 ? 0 : Tolerance;
         }
 
         return Math.Round(x, 4);

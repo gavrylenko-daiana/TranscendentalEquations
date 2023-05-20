@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TranscendentalEquations.Model;
 using TranscendentalEquations.Services;
 
 namespace TranscendentalEquations.TranscendentalMethods;
 
-public class MySecant : FindFunction
+public class MySecant : TranscendentalEquation
 {
     private StringBuilder intermediateData;
 
@@ -16,31 +17,32 @@ public class MySecant : FindFunction
         this.intermediateData = intermediateData;
     }
 
-    public double SecantMethod(string equation, int maxIterations, double tolerance, double x0, double x1)
+    public override double Solve()
     {
+        FindFunction findFunction = new FindFunction();
+
         double x2 = 0;
+        double fx0 = findFunction.f(A, Equation);
+        double fx1 = findFunction.f(B, Equation);
 
-        double fx0 = f(x0, equation);
-        double fx1 = f(x1, equation);
-
-        for (int i = 0; i < maxIterations; i++)
+        for (int i = 0; i < MaxIterations; i++)
         {
-            if (Math.Abs(fx1) < tolerance)
+            if (Math.Abs(fx1) < Tolerance)
             {
-                return Math.Round(x1, 4);
+                return Math.Round(B, 4);
             }
 
-            x2 = x1 - fx1 * (x1 - x0) / (fx1 - fx0);
-            x0 = x1;
-            x1 = x2;
+            x2 = B - fx1 * (B - A) / (fx1 - fx0);
+            A = B;
+            B = x2;
             fx0 = fx1;
-            fx1 = f(x2, equation);
+            fx1 = findFunction.f(x2, Equation);
 
             intermediateData.AppendLine($"Iteration: {i + 1}");
-            intermediateData.AppendLine($"x{i} = {Math.Round(x0, 4)}");
-            intermediateData.AppendLine($"x{i + 1} = {Math.Round(x1, 4)}");
-            intermediateData.AppendLine($"f(x{i}) = {Math.Round(fx0, 4)}");
-            intermediateData.AppendLine($"f(x{i + 1}) = {Math.Round(fx1, 4)}");
+            intermediateData.AppendLine($"x0 = {Math.Round(A, 4)}");
+            intermediateData.AppendLine($"x1 = {Math.Round(B, 4)}");
+            intermediateData.AppendLine($"f(x0) = {Math.Round(fx0, 4)}");
+            intermediateData.AppendLine($"f(x1) = {Math.Round(fx1, 4)}");
             intermediateData.AppendLine();
         }
 

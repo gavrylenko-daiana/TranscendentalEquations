@@ -10,7 +10,6 @@ namespace TranscendentalEquations.Interfaces;
 
 public interface IParserService
 {
-    string ReplaceConstants(string input);
-
     double GetValueFromEquation(string input);
+    string ReplaceConstants(string input);
 }
