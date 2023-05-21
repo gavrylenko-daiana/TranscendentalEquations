@@ -32,9 +32,9 @@ public class FileManager
         }
     }
 
-    public void AddMainData(StringBuilder intermediateData, TranscendentalEquation equation) 
+    public void AddMainData(StringBuilder intermediateData, TranscendentalEquation equation, string nameMethod) 
     {
-        intermediateData.AppendLine($"Method: {nameof(MyBisection)}");
+        intermediateData.AppendLine($"Method: {nameMethod}");
         intermediateData.AppendLine($"Equation: {equation.Equation}");
         intermediateData.AppendLine($"Max Iterations: {equation.MaxIterations}");
         intermediateData.AppendLine($"Tolerance: {equation.Tolerance}");
