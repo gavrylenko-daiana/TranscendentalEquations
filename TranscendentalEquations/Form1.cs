@@ -92,6 +92,7 @@ public partial class Form1 : Form
             TranscendentalEquation bisection = new MyBisection(intermediateData);
             EquationManager equationManager = new EquationManager();
             string intermediateDataFileName = $"data_from_bisection.txt";
+            string nameClass = $"{nameof(MyBisection)}";
 
             bisection.Equation = textBox1.Text;
             bisection.MaxIterations = int.Parse(textBox2.Text);
@@ -99,7 +100,7 @@ public partial class Form1 : Form
             bisection.A = Convert.ToDouble(textBox4.Text);
             bisection.B = Convert.ToDouble(textBox5.Text);
 
-            equationManager.EquationSolver(intermediateData, bisection, intermediateDataFileName);
+            equationManager.EquationSolver(intermediateData, bisection, intermediateDataFileName, nameClass);
 
             OutputForButtonClick_Update(OutputForButton1Click, Convert.ToString(bisection.Result));
 
@@ -122,12 +123,13 @@ public partial class Form1 : Form
             TranscendentalEquation newton = new MyNewton(intermediateData);
             EquationManager equationManager = new EquationManager();
             string intermediateDataFileName = $"data_from_newton.txt";
+            string nameClass = $"{nameof(MyNewton)}";
 
             newton.Equation = textBox1.Text;
             newton.MaxIterations = int.Parse(textBox2.Text);
             newton.Tolerance = Convert.ToDouble(textBox3.Text);
 
-            equationManager.EquationSolver(intermediateData, newton, intermediateDataFileName);
+            equationManager.EquationSolver(intermediateData, newton, intermediateDataFileName, nameClass);
 
             OutputForButtonClick_Update(OutputForButton2Click, Convert.ToString(newton.Result));
 
@@ -138,6 +140,7 @@ public partial class Form1 : Form
             MessageBox.Show("You didn`t follow the instruction!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+
     private void button3_Click(object? sender, EventArgs e)
     {
         CorrectSpellingInput();
@@ -149,6 +152,7 @@ public partial class Form1 : Form
             TranscendentalEquation secant = new MySecant(intermediateData);
             EquationManager equationManager = new EquationManager();
             string intermediateDataFileName = $"data_from_secant.txt";
+            string nameClass = $"{nameof(MySecant)}";
 
             secant.Equation = textBox1.Text;
             secant.MaxIterations = int.Parse(textBox2.Text);
@@ -156,7 +160,7 @@ public partial class Form1 : Form
             secant.A = Convert.ToDouble(textBox4.Text);
             secant.B = Convert.ToDouble(textBox5.Text);
 
-            equationManager.EquationSolver(intermediateData, secant, intermediateDataFileName);
+            equationManager.EquationSolver(intermediateData, secant, intermediateDataFileName, nameClass);
             
             OutputForButtonClick_Update(OutputForButton3Click, Convert.ToString(secant.Result));
 
@@ -249,12 +253,27 @@ public partial class Form1 : Form
 // cos(5*x)+|x-(x)^(2)|-pi+|2*(x-1)|-(x)^(sin(x+2))+15*pi-e/(tg(x))^(2)
 // cos(5*(0.25)^(3))+|0.25-(0.25)^(2)|+|2*(0.25-1)|+15/(tg(-5*0.25))^(2)-(0.25+2)^(sin(0.25-1))/12-(2-(5-2))^(3)
 
-// (x)^(3)+3*(x)^(2)+12*x+8   -5;5  (1, 2, 3)
+
 // 5*cos(x)   0.5;1.5  (2, 3)
-// 5*cos((x)^(2))-3*x    0;1   (1, 2, 3)
-// 1-2*x   0;1  (1, 2, 3)
+// (e)^(x)
 // sin(2*x)-2*(x)^(2)   2;3  (2, 3)
 // (x)^(4)-16*x-64   3;4   (1, 2)
 // sin(x*2)+cos(x*2)-10*x  0.2;0.4  (2, 3)
 // tg(x)+log(2; x+10)-(x)^(2)-x   0.8;1.2  (2, 3)
+
 // log(2;(x))+3*(x)^(2)   0.5;1.2  (1, 2, 3)
+// cos(7*x)+(x)^(2)-3   0;10 (1, 2, 3)
+// cos(7*x)+(x)^(2)-3   1;2 (1, 2, 3) -------
+// cos(7*x)+(x)^(2)-3   1,62;1,63 (1, 2, 3)
+// -(3/sqrt(2))*(sin(pi*(x+1/4))+cos(pi*(x+1/4)))   1;2 (1, 2, 3)  
+// (x)^(3)+3*(x)^(2)+12*x+8   -5;5  (1, 2, 3)
+// 5*cos((x)^(2))-3*x    0;1   (1, 2, 3)
+// (x)^(2)*(1/4*x-4)+log(e;4*x)+2*x   0,8;1,1 (1, 2, 3)
+// x*(e)^(x)-1   0;1 (1, 2, 3)
+// 1-2*x   0;1  (1, 2, 3)
+// x-cos(x)   -1;1 (1, 2, 3)
+// tg(x)-x   -2;3 (1, 2, 3)
+// (x)^(3)-18   0;3 (1, 2, 3)
+// (x)^(3)-x-15  0;3 (1, 2, 3)
+// (x)^(3)-6*x-4  -1;1 (1, 2, 3)
+// sin(x)-x   -2;1 (1, 2, 3)

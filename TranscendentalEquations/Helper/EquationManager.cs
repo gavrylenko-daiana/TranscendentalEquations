@@ -11,10 +11,10 @@ namespace TranscendentalEquations.Helper
 {
     public class EquationManager
     {
-        public void EquationSolver(StringBuilder data, TranscendentalEquation equation, string filePath)
+        public void EquationSolver(StringBuilder data, TranscendentalEquation equation, string filePath, string nameMethod)
         {
             FileManager fileManager = new FileManager();
-            fileManager.AddMainData(data, equation);
+            fileManager.AddMainData(data, equation, nameMethod);
 
             equation.Result = equation.Solve();
 
